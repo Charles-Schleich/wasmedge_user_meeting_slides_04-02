@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>reveal.js</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
+    <link rel="stylesheet" href="dist/styles.css">
+    <!-- <link rel="stylesheet" href="plugin/highlight/monokai.css"> -->
+    <!-- <link rel="stylesheet" href="plugin/highlight/monokai.css"> -->
+    <link rel="stylesheet" href="plugin/highlight/github-dark.css">
+
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section data-markdown>
+                <textarea data-template>
+                        ## WasmEdge's yolo-rs 
+                        #### WASI, Computer Vision and Rust
+                      </textarea>
+            </section>
+
+            <!-- SLIDE 1 -->
+            <section data-markdown>
+                <textarea data-template>
+                        ## Intro
+                        - Charles Schleich
+                        - Engineer (sometimes)
+                            - Distributed Systems
+                            - Rust
+                            - WASM
+                      </textarea>
+            </section>
+
+
+            <!-- 
+██     ██  █████  ███████ ███    ███     ███████ ██████   ██████  ███████     
+██     ██ ██   ██ ██      ████  ████     ██      ██   ██ ██       ██          
+██  █  ██ ███████ ███████ ██ ████ ██     █████   ██   ██ ██   ███ █████       
+██ ███ ██ ██   ██      ██ ██  ██  ██     ██      ██   ██ ██    ██ ██          
+ ███ ███  ██   ██ ███████ ██      ██     ███████ ██████   ██████  ███████     
+ -->
+
+            <section>
+                <section>
+                    <img class="r-frame" width="600" data-src="./assets/wasmedge/wasmedge-horizontal-white.svg">
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        #### Context
+                        - Runtime for Wasm Binaries
+                        - Lightweight + performant
+                        - Written in C++
+                        - Rust SDK 
+                        - Extensible (Plugin System)
+                    </textarea>
+                </section>
+
+                <section>
+                    <img width="1000" data-src="./assets/wasmedge/wasm.png">
+                </section>
+
+                <section>
+                    <img width="1000" data-src="./assets/wasmedge/wasmedge_one.png">
+                </section>
+
+                <section>
+                    <img width="1000" data-src="./assets/wasmedge/wasmedge_multiple.png">
+                </section>
+
+                <section>
+                    <img width="1000" data-src="./assets/wasmedge/wasmedge_plugin.png">
+                </section>
+
+            </section>
+
+            <!-- 
+██     ██  █████  ███████ ███    ███ ███████ ██████   ██████  ███████        ██    ██  ██████  ██       ██████        ██████  ███████ 
+██     ██ ██   ██ ██      ████  ████ ██      ██   ██ ██       ██      ██      ██  ██  ██    ██ ██      ██    ██       ██   ██ ██      
+██  █  ██ ███████ ███████ ██ ████ ██ █████   ██   ██ ██   ███ █████            ████   ██    ██ ██      ██    ██ █████ ██████  ███████ 
+██ ███ ██ ██   ██      ██ ██  ██  ██ ██      ██   ██ ██    ██ ██      ██        ██    ██    ██ ██      ██    ██       ██   ██      ██ 
+ ███ ███  ██   ██ ███████ ██      ██ ███████ ██████   ██████  ███████           ██     ██████  ███████  ██████        ██   ██ ███████ 
+ -->
+
+            <section>
+                <section>WasmEdge YOLO-rs</section>
+                <section data-markdown>
+                    <textarea data-template>
+                            ## Context
+                            - Second State - Michael Yuan
+                            - The Linux Foundation (CNCF)
+                            - Open Source Project WasmEdge
+                            - Computer Vision + Rust
+                        </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        A Rust crate for the YOLO family of object detection models
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Scope
+                        - Pre processing
+                        - No Neural Nets - Only load the weights
+                        - Post processing 
+                        - Image support
+                        - Video support
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Project Structure:
+                        - WASM Dev SDK
+                        - WasmEdge : Video Processing Plugin 
+                            - FFMPEG - Backbone of Open Source AV Proc
+                    </textarea>
+                </section>
+
+                <section>
+                    <img width="1000" data-src="./assets/wasmedge_yolors/git_repo.png">
+                </section>
+
+                <!-- <section>
+                    <img width="1000" data-src="./assets/wasmedge_yolors/pipeline_1.png">
+                </section> -->
+
+                <section>
+                    <img width="1000" data-src="./assets/wasmedge_yolors/pipeline_2.png">
+                </section>
+
+
+                <!-- <section data-markdown>
+                    <textarea data-template>
+                        - TODO Pipeline
+                    </textarea>
+                </section> -->
+
+
+
+            </section>
+
+            <!-- 
+██████  ██████  ███████       ██████  ██████   ██████   ██████ ███████ ███████ ███████ ██ ███    ██  ██████  
+██   ██ ██   ██ ██            ██   ██ ██   ██ ██    ██ ██      ██      ██      ██      ██ ████   ██ ██       
+██████  ██████  █████   █████ ██████  ██████  ██    ██ ██      █████   ███████ ███████ ██ ██ ██  ██ ██   ███ 
+██      ██   ██ ██            ██      ██   ██ ██    ██ ██      ██           ██      ██ ██ ██  ██ ██ ██    ██ 
+██      ██   ██ ███████       ██      ██   ██  ██████   ██████ ███████ ███████ ███████ ██ ██   ████  ██████  
+-->
+
+            <section>
+
+                <section>Pre-Processing</section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Neural Network Expects Shape
+                        - Load Image
+                        - Resize to fit 640 x 640
+                        - maintain aspect ratio
+                        - Flatten Single list of `f32`
+                    </textarea>
+                </section>
+
+                <section data-auto-animate>
+                    <div>S-tier battlestation</div>
+                    <div style="font-size: 25px;">Courtesy of Reddit user u/NguyenDees</div>
+                    <div data-id="box">
+                        <img width="600" data-src="./assets/NguyenDees.jpg">
+                    </div>
+                </section>
+
+
+                <section data-auto-animate>
+                    <div>Resize to 640 to 640</div>
+                    <div data-id="box">
+                        <img width="600" data-src="./assets/NguyenDees_resized.jpg">
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <div>Split into channels</div>
+                    <div class="r-hstack justify-center">
+                        <!-- <div class="r-hstack justify-center"> -->
+                        <div data-id="box_r"><img data-src="./assets/NguyenDees_r.jpg"></div>
+                        <div data-id="box_g"><img data-src="./assets/NguyenDees_g.jpg"></div>
+                        <div data-id="box_b"><img data-src="./assets/NguyenDees_b.jpg"></div>
+                    </div>
+                </section>
+
+
+                <section data-auto-animate>
+                    <div>Split into channels</div>
+                    <div class="r-hstack justify-center" style="font-size: 19px;">
+                        <div class="widget-title" data-id="box_r" style="height: 250px; width: 300px;">
+                            <div style="color:red;">
+                                01101000 01110100 01110100 01110000 01110011
+                            </div>
+                            <div style="color:red;">
+                                00111010 00101111 00101111 01110111 01110111
+                            </div>
+                            <div style="color:red;">
+                                01110111 00101110 01111001 01101111 01110101
+                            </div>
+                        </div>
+                        <div class="widget-title" data-id="box_g" style="height: 250px; width: 300px;">
+                            <div style="color:green">
+                                01110100 01110101 01100010 01100101 00101110
+                            </div>
+                            <div style="color:green">
+                                01100011 01101111 01101101 00101111 01110111
+                            </div>
+                            <div style="color:green">
+                                01100001 01110100 01100011 01101000 00111111
+                            </div>
+                        </div>
+                        <div class="widget-title" data-id="box_b" style="height: 250px; width: 300px;">
+                            <div style="color:blue">
+                                01110110 00111101 01100100 01010001 01110111
+                            </div>
+                            <div style="color:blue">
+                                00110100 01110111 00111001 01010111 01100111
+                            </div>
+                            <div style="color:blue">
+                                01011000 01100011 01010001 00100000 00100000
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <div>Convert to f32</div>
+                    <div class="r-hstack justify-center" style="font-size: 19px;">
+
+                        <div class="widget-title" data-id="box_r" style="height: 250px; width: 300px;">
+                            <div style="color:red;">
+                                f32 f32 f32 f32 ...
+                            </div>
+                        </div>
+                        <div class="widget-title" data-id="box_g" style="height: 250px; width: 300px;">
+                            <div style="color:green">
+                                f32 f32 f32 f32 ...
+                            </div>
+                        </div>
+                        <div class="widget-title" data-id="box_b" style="height: 250px; width: 300px;">
+                            <div style="color:blue">
+                                f32 f32 f32 f32 ...
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <div>Flatten to a single buffer to f32</div>
+                    <div class="r-hstack justify-center" style="font-size: 19px;">
+                        <div class="widget-title">
+                            <div data-id="box" style="display: grid; height: 150px; width: 400px;">
+                                <div style="color:red;">
+                                    f32 f32 f32 f32 ...
+                                </div>
+                                <div style="color:green">
+                                    f32 f32 f32 f32 ...
+                                </div>
+                                <div style="color:blue">
+                                    f32 f32 f32 f32 ...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section data-auto-animate>
+                    <h2 data-id="code-title">The Code</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers="|18-30|32-43|46-60|62-70|72-74"><script type="text/template">
+                        use image::{GenericImage, ImageError, RgbImage};
+
+                        // Function to normalize and resize image for YOLO
+                        const SIZE: usize = 640;
+                        const SIZE_U32: u32 = 640;
+                        type Channel = Vec<Vec<f32>>;
+
+                        #[derive(Debug)]
+                        pub struct ResizeScale(pub f32);
+
+                        /// This Function maps an RGB image into a single Vector of Floating point numbers
+                        pub(crate) fn pre_process_image(
+                            image: &RgbImage,
+                        ) -> Result<([Channel; 3], ResizeScale), ImageError> {
+                            let input_width = image.width();
+                            let input_height = image.height();
+
+                            let (height, width);
+                            let length = input_height.max(input_width) as f32;
+                            let resize_scale = ResizeScale(length / SIZE as f32);
+
+                            if input_width > input_height {
+                                // height is the shorter length
+                                height = SIZE_U32 * input_height / input_width;
+                                width = SIZE_U32;
+                            } else {
+                                // width is the shorter length
+                                width = SIZE_U32 * input_width / input_height;
+                                height = SIZE_U32;
+                            }
+
+                            let resized: image::ImageBuffer<image::Rgb<u8>, Vec<u8>> = image::imageops::resize(
+                                image,
+                                width,
+                                height,
+                                ::image::imageops::FilterType::Triangle,
+                            );
+
+                            // We need the image to fit the 640 x 640 size,
+                            // and we want to keep the aspect ratio of the original image
+                            // So we fill the remaining pixels with black,
+                            let mut resized_640x640 = RgbImage::new(SIZE_U32, SIZE_U32);
+                            resized_640x640.copy_from(&resized, 0, 0)?;
+
+                            // Split intoChannels
+                            let mut red: Channel = vec![vec![0.0; SIZE]; SIZE];
+                            let mut blue: Channel = vec![vec![0.0; SIZE]; SIZE];
+                            let mut green: Channel = vec![vec![0.0; SIZE]; SIZE];
+
+                            // represent value as f32
+                            for (_, pixel) in resized_640x640.enumerate_rows() {
+                                for (x, y, rgb) in pixel {
+                                    let x = x as usize;
+                                    let y = y as usize;
+
+                                    red[y][x] = rgb.0[0] as f32 / 255.0;
+                                    green[y][x] = rgb.0[1] as f32 / 255.0;
+                                    blue[y][x] = rgb.0[2] as f32 / 255.0;
+                                }
+                            }
+
+                            let final_tensor_rgb: [Vec<Vec<f32>>; 3] = [red, green, blue];
+
+                            let final_tensor: Vec<f32> = final_tensor_rgb
+                                .into_iter()
+                                .flatten()
+                                .collect::<Vec<Vec<f32>>>()
+                                .into_iter()
+                                .flatten()
+                                .collect::<Vec<f32>>();
+
+                            // ([ f32 f32 f32 ... f32 ], scale_factor)
+                            // ([ rrrgggbbb ], 0.5)
+                            Ok((final_tensor, resize_scale))
+                        }
+
+					</script></code></pre>
+                </section>
+
+
+                <section>
+                    <div>Now we can pass this to our Neural Network</div>
+                </section>
+
+                <!-- <section data-auto-animate>
+                    <div data-id="box" style="height: 50px; width: 50px; background:black;"></div>
+                    <div data-id="box" style="height: 50px; width: 50px; background: salmon;"></div>
+
+                    <div data-id="box" style="height: 50px; width: 50px; background:black;"></div>
+                </section> -->
+            </section>
+
+
+            <!-- 
+██     ██  █████  ███████ ██     ███    ██ ███    ██     
+██     ██ ██   ██ ██      ██     ████   ██ ████   ██     
+██  █  ██ ███████ ███████ ██     ██ ██  ██ ██ ██  ██     
+██ ███ ██ ██   ██      ██ ██     ██  ██ ██ ██  ██ ██     
+ ███ ███  ██   ██ ███████ ██     ██   ████ ██   ████      
+-->
+
+
+            <section>
+                <section>Wasm Edge NN processing</section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ```rust
+                        // wasi-nn = "0.6.0"
+                        
+                        use wasi_nn::{ExecutionTarget, Graph, GraphEncoding};
+
+                        let model_file : Vec<&[u8]> = std::fs::read(model_file);
+
+                        let graph = GraphBuilder::new(
+                                GraphEncoding::Pytorch, 
+                                ExecutionTarget::CPU)
+                            .build_from_files([model_file])
+                            .unwrap();
+                        ```
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ```rust
+                        pub enum GraphEncoding {          pub enum ExecutionTarget {
+                            Openvino,                         CPU,
+                            Onnx,                             GPU,
+                            Tensorflow,                       TPU,  
+                            Pytorch,                          AUTO,
+                            TensorflowLite,               }
+                            Autodetec,
+                            // safe tensors when ?
+                        } 					
+                        ```
+                    </textarea>
+                </section>
+
+                <section data-auto-animate>
+                    <h2 data-id="code-title">The Code</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers="|1|3-8|10|13-14"><script type="text/template">
+                            let mut context = graph.init_execution_context()?;
+    
+                            context.set_input(
+                                0,
+                                wasi_nn::TensorType::F32,
+                                &[1, 3, self::INPUT_WIDTH, INPUT_HEIGHT],
+                                &tensor_data,
+                            )?;
+                    
+                            let mut output_buffer = vec![0f32; OBJECTS * CLASSES];
+                    
+                            // Execute the inference.
+                            context.compute()?;
+                            context.get_output(0, &mut output_buffer)?;
+                        </script></code></pre>
+                </section>
+            </section>
+            </section>
+
+            <!-- 
+    ██████   ██████  ███████ ████████     ██████  ██████   ██████   ██████ 
+    ██   ██ ██    ██ ██         ██        ██   ██ ██   ██ ██    ██ ██      
+    ██████  ██    ██ ███████    ██        ██████  ██████  ██    ██ ██      
+    ██      ██    ██      ██    ██        ██      ██   ██ ██    ██ ██      
+    ██       ██████  ███████    ██        ██      ██   ██  ██████   ██████  
+-->
+
+            <!--  -->
+            <section>
+                <section>Post processing</section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Post Proc Pipeline
+                        - `out Vec<f32> -> [(detections, classes, position)]`
+                        - Filter : Non-maximum suppression (NMS)
+                        - Reduce : Intersection over Union (IoU)
+                        - [(detections, classes, position)]
+                    </textarea>
+                </section>
+
+                <!--  -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Output from Neural Network
+                        - `out_buf: Vec<f32>`
+                        - `(OBJECTS, CLASSES)`
+                        - `OBJECTS : 8400`
+                        - `CLASSES : 80`
+                        - `x,y,w,h : +4`
+                    </textarea>
+                </section>
+                <!--  -->
+                <section data-auto-animate>
+                    <h2 data-id="code-title">Buf to 2D array</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers="|1|3-8|10|13-15"><script type="text/template">
+                        pub fn process_output_buffer_to_tensor(
+                            buffer: &[f32]) -> Vec<Vec<f32>> {
+
+                            // Output buffer is in format
+                            // 8400 x 84 as a single Vec of f32
+                            // i.e. [x1,x2,x3,..,x8400, y1,y2,y3,...,y84000,]
+                            let mut columns = Vec::new();
+                            for col_slice in buffer.chunks_exact(8400) {
+                                let col_vec = col_slice.to_vec();
+                                columns.push(col_vec);
+                            }
+                        
+                            // Transpose 84 rows x 8400 columns 
+                            // to a single Vec of f32
+                            transpose(columns)
+                        }
+                    </script></code></pre>
+                </section>
+
+
+                <section data-auto-animate>
+                    <h2 data-id="code-title">2D Detection Array</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers=""><script type="text/template">
+                        [x,y,w,h,p1,p2,p3...p80] // detection 1
+                        [x,y,w,h,p1,p2,p3...p80] // detection 2
+                        ...
+                        [x,y,w,h,p1,p2,p3...p80] // detection 3
+                    </script></code></pre>
+                </section>
+                <!--  -->
+                <section data-auto-animate>
+                    <h2 data-id="code-title">Apply NMS</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers="|1-2|3-9|11-14|17-27|29-35|37-41"><script type="text/template">
+                        // [x,y,w,h,p1,p2,p3...p80]
+                        let prob_iter = row.iter().skip(4).collect::<Vec<&f32>>();
+
+                        // Get max in list
+                        let mut max = f32::MIN;
+                        for &item in prob_iter.iter() {
+                            if item > &max {
+                                max = *item;
+                            }
+                        }
+
+                        // Filter According to confidence Threshold
+                        if max < conf_thresh {
+                            continue;
+                        }
+                    
+                        // Find most likely class in possible classes
+                        let class = match prob_iter
+                            .into_iter()
+                            .position(|element| *element == max)
+                            .and_then(|idx| classes.get(idx))
+                        {
+                            Some(x) => x.to_string(),
+                            None => {
+                                continue;
+                            }
+                        };
+                    
+                        // The output of the x and y cooridnates are at the CENTER of the bounding box
+                        // which means if we want to get them to the top left hand corners,
+                        // we must shift x by width * 0.5, and y by height * 0.5
+                        let x = ((row[0] - 0.5 * row[2]) * scale.0).round() as u32;
+                        let y = ((row[1] - 0.5 * row[3]) * scale.0).round() as u32;
+                        let w = (row[2] * scale.0).round() as u32;
+                        let h = (row[3] * scale.0).round() as u32;
+                    
+                        results.push(InferenceResult {
+                            b_box: Rect::at(x as i32, y as i32).of_size(w, h),
+                            confidence: max,
+                            class,
+                        });
+
+                    </script></code></pre>
+                </section>
+                <!--  -->
+
+                <section>
+                    <h2 data-id="code-title">Repo</h2>
+                    <img width="800" data-src="./assets/wasmedge_yolors/git_repo.png">
+                </section>
+
+                <section data-auto-animate>
+                    <h2 data-id="code-title">Apply IOU</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers=""><script type="text/template">
+                        // Calculate intersection over union for rectangle
+                        pub fn _iou(box1: Rect, box2: Rect) -> Option<f32> {
+                            let area = |r: Rect| r.width() * r.height();
+                        
+                            let area1 = area(box1);
+                            let area2 = area(box2);
+                        
+                            let area_boxes = area1 + area2;
+                        
+                            match box1.intersect(box2) {
+                                Some(intersection) => area(intersection) as f32 / (area_boxes - area(intersection)) as f32,
+                                None => None, // 
+                            }
+                        }
+                    </script></code></pre>
+                </section>
+                <!--  -->
+
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ### Vectorized IOU 
+                        - Piotr Skalski
+                        - TLDR: Matrix multiplication
+                        - https://blog.roboflow.com/how-to-code-non-maximum-suppression-nms-in-plain-numpy/  
+                    </textarea>
+                </section>
+
+                <section data-auto-animate>
+                    <h2 data-id="code-title">Vectorized IOU - Piotr Skalski</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers="|17-18"><script type="text/template">
+                        pub fn vectorized_iou(
+                            boxes_a: Array2<f64>,
+                            boxes_b: Array2<f64>,
+                        ) -> Result<Array2<f64>, YoloRuntimeError> { 
+                            let box_area =
+                                |bbox: ArrayView<f64, Dim<[usize; 1]>>| (bbox[2] - bbox[0]) * (bbox[3] - bbox[1]);
+                            let (num_boxes, _elems_per_box) = boxes_a.dim();
+    
+                            let area_a = boxes_a.map_axis(Axis(1), box_area);
+                            let area_b = boxes_b.map_axis(Axis(1), box_area);
+    
+                            let boxes_a_new_axis = boxes_a.clone().insert_axis(Axis(1));
+                            // let boxes_b_new_axis = boxes_b.clone();
+                            let a_top_left = boxes_a_new_axis.slice(s![.., .., ..2]);
+
+                            //
+                            let a_top_left_bc = a_top_left.broadcast((num_boxes, num_boxes, 2)).ok_or(
+                                YoloRuntimeError::PostProcessingError(PostProcessingError::BroadcastArrayDims),
+                            )?;
+                            let b_top_left = boxes_b.slice(s![.., ..2]);
+    
+                            // Elementwise maximum
+                            let top_left = Zip::from(&a_top_left_bc)
+                                .and_broadcast(b_top_left)
+                                .map_collect(|x, &y| x.max(y));
+    
+                            let a_bot_right = boxes_a_new_axis.slice(s![.., .., 2..]);
+                            let b_bot_right = boxes_b.slice(s![.., 2..]);
+                            // TODO Remove Unwrap in case of Impossible Broadcast
+                            let a_bot_right_bc = a_bot_right.broadcast((num_boxes, num_boxes, 2)).unwrap();
+    
+                            // Elementwise minumum
+                            let bottom_right = Zip::from(a_bot_right_bc)
+                                .and_broadcast(&b_bot_right)
+                                .map_collect(|x, &y| x.min(y));
+    
+                            // Difference between right and bottom left
+                            let bot_right_top_left = bottom_right - top_left;
+                            let area_inter = bot_right_top_left.map_axis(Axis(2), |x| x.product());
+                            let iou = area_inter.clone() / (area_a.insert_axis(Axis(1)) + area_b - area_inter);
+    
+                            //
+                            Ok(iou)
+                        }
+    
+                    </script></code></pre>
+                </section>
+
+                <section>
+                    <h2 data-id="code-title">Output</h2>
+                    <img width="800" data-src="./assets/NguyenDees_output.jpg">
+                </section>
+
+            </section>
+            </section>
+
+            <!-- 
+    ██     ██  █████  ███████ ███    ███     ██ ███    ██ ████████ ███████ ██████  ███████  █████   ██████ ███████ 
+    ██     ██ ██   ██ ██      ████  ████     ██ ████   ██    ██    ██      ██   ██ ██      ██   ██ ██      ██      
+    ██  █  ██ ███████ ███████ ██ ████ ██     ██ ██ ██  ██    ██    █████   ██████  █████   ███████ ██      █████   
+    ██ ███ ██ ██   ██      ██ ██  ██  ██     ██ ██  ██ ██    ██    ██      ██   ██ ██      ██   ██ ██      ██      
+     ███ ███  ██   ██ ███████ ██      ██     ██ ██   ████    ██    ███████ ██   ██ ██      ██   ██  ██████ ███████  
+-->
+
+            <section>
+                <section>WasmEdge - Plugin Interface</section>
+
+            <section data-auto-animate>
+                <h2 data-id="code-title">Interface code</h2>
+                    <pre data-id="code-animation"><code class="hljs rust" data-trim data-line-numbers=""><script type="text/template">
+
+                    #[link(wasm_import_module = "yolo-rs-video")]
+                    extern "C" {
+                        pub fn init_plugin_logging(level: *const i32) -> i32;
+                    
+                        pub fn load_video_to_host_memory(
+                            str_ptr: i32,
+                            str_len: i32,
+                            str_capacity: i32,
+                            width_ptr: *mut i32,
+                            height_ptr: *mut i32,
+                            frame_count: *mut i32,
+                        ) -> i32;
+                    
+                        pub fn get_frame(
+                            frame_index: i32,
+                            image_buf_ptr: i32,
+                            image_buf_len: i32,
+                            image_buf_capacity: i32,
+                        ) -> i32;
+                    
+                        pub fn write_frame(
+                            frame_index: i32, 
+                            image_buf_ptr: i32, 
+                            image_buf_len: i32) -> i32;
+                    
+                        pub fn assemble_output_frames_to_video(
+                            str_ptr: i32,
+                            str_len: i32,
+                            str_capacity: i32,
+                        ) -> i32;
+                    }
+                    </script></code></pre>
+                </section>
+
+            </section>
+            </section>
+        </section>
+
+            <section>
+                <section>Video Example</section>
+                <!-- <section data-background-video="https://static.slid.es/site/homepage/v1/homepage-video-editor.mp4" data-background-color="#000000"> -->
+                <section data-background-video="./assets/snehil_joshi_zettascale_out.mp4"
+                    data-background-color="#000000">
+                </section>
+            </section>
+
+
+            <!-- 
+███████ ███████ ███    ███ ██████  ███████  ██████  
+██      ██      ████  ████ ██   ██ ██      ██       
+█████   █████   ██ ████ ██ ██████  █████   ██   ███ 
+██      ██      ██  ██  ██ ██      ██      ██    ██ 
+██      ██      ██      ██ ██      ███████  ██████   
+-->
+
+
+            <section>
+                <section>
+                    <h3>Video Proc Plugin : FFMPEG</h3>
+                    <p style="font-size: 35px;">Fast Forward Moving Picture Experts Group</p>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        Decode Video
+                        - Load Video File
+                        - Process Encoded Packets -> RBG Frames 
+                        - Expose All Frames to WASM Application 
+                            - Inference 
+                            - Returns frames with bounding box
+                    </textarea>
+                </section>
+
+
+                <section data-markdown>
+                    <textarea data-template>
+                        Re-Encode Video 
+                        - RBG Frames -> Packets -> Write Packets to Disc
+                        - Important
+                            - I Frames vs B Frames 
+                            - Packets 
+                            - Bit rate
+                        - FFMPEG Version : 4.4.2-0ubuntu0.22.04.1
+                        - Using NVenc under the hood (3070)
+                    </textarea>
+                </section>
+
+            </section>
+
+            <!-- 
+    ██      ███████  █████  ██████  ███    ██         ██      ██ ███    ███ ██ ████████ 
+    ██      ██      ██   ██ ██   ██ ████   ██         ██      ██ ████  ████ ██    ██    
+    ██      █████   ███████ ██████  ██ ██  ██         ██      ██ ██ ████ ██ ██    ██    
+    ██      ██      ██   ██ ██   ██ ██  ██ ██         ██      ██ ██  ██  ██ ██    ██    
+    ███████ ███████ ██   ██ ██   ██ ██   ████         ███████ ██ ██      ██ ██    ██     
+-->
+
+            <section>
+                <section data-markdown>
+                    <textarea data-template>
+                        Learnings And Limitations 
+                        - Broadcasting of Arrays 
+                        - FFMPEG : I Frame vs B Frame
+                        - Nvidia - NVenc 
+                        - FFMPEG : Latest Version
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        TODO
+                        - Finish Dockerizing
+                        - FFMPEG - Improve Re-encoding
+                        - FFMPEG - Move to Latest Version
+                        - Profile performance and improve
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        Future work
+                        - Better interface for passing types
+                        - WebRTC Plugin for streaming video
+                        - Design review
+                    </textarea>
+                </section>
+            </section>
+            <!-- =====================================================================================================  -->
+
+        </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+        // More info about initialization & config:
+        // - https://revealjs.com/initialization/
+        // - https://revealjs.com/config/
+        Reveal.initialize({
+            hash: true,
+            slideNumber: true,
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+        });
+    </script>
+</body>
+
+</html>
